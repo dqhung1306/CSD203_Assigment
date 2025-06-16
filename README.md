@@ -11,3 +11,6 @@ Research and implement AVL Tree DS to handle each entity.
 Add Features for your project (eg: add ice cream, add Employee, generate invoice  etc …)
 Presentation of what you have done in week 7:
 NOTE: EACH NODE IN THE TREE WILL HAVE 3 POINTERS (LEFT, RIGH AND PARENT)
+-Sever LOQ với Database northwind sẽ không chạy được ở máy khác
+chỉ xem code thôi không chạy được đâu 
+
