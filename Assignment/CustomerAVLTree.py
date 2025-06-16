@@ -171,3 +171,4 @@ class AVLTree:
             self.inorderTraversal(node.left, result)
             result.append(node.data)
             self.inorderTraversal(node.right, result)
+    

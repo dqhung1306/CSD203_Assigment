@@ -1,5 +1,6 @@
 import pyodbc
 from Customers import Customer
+from Invoices import Invoice
 
 class Database:
     def __init__(self):
@@ -24,7 +25,35 @@ class Database:
         query = "DELETE FROM Customers WHERE CustomerID = ?"
         self.cursor.execute(query, (id,))
         self.conn.commit()
+    def loadInvoices(self):
+        self.cursor.execute('select InvoiceID, CustomerID, Total from Invoices')
+        invoices_data = self.cursor.fetchall()
 
+        invoices = []
+        for invoice_data in invoices_data:
+            invoice_id, customer_id, total = invoice_data
+
+            self.cursor.execute("""select ProductName, Quantity, UnitPrice, TotalPrice
+                from [Invoice Details] where InvoiceID = ? 
+                """, (invoice_id,))
+            details = self.cursor.fetchall()
+
+            products = {}
+            for detail in details:
+                product_id, quantity, unit_price, total_price = detail
+                products[product_id] = {
+                    "Quantity": quantity,
+                    "UnitPrice": float(unit_price),
+                    "TotalPrice": float(total_price)
+                }
+
+
+            invoice = Invoice(invoice_id, customer_id, products, float(total))
+            invoices.append(invoice)
+
+        return invoices
     def __del__(self):
         self.cursor.close()
         self.conn.close()
+
+

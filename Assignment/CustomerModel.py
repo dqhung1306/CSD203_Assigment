@@ -1,4 +1,4 @@
-from AVLTree import AVLTree
+from CustomerAVLTree import AVLTree
 from Database import Database
 from Customers import Customer
 import re
