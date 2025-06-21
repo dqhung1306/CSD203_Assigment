@@ -1,4 +1,4 @@
-class CustomerView:
+class Customer_View:
     def displayMenu(self):
         print("\n=== Customer Management System ===")
         print("1. Add Customer")

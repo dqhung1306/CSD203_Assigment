@@ -1,10 +1,10 @@
-from InvoiceView import InvoiceView
-from InvoiceModel import InvoiceModel
+from View.InvoiceView import Invoice_View
+from Model.InvoiceModel import Invoice_Model
 
-class InvoiceController:
+class Invoice_Controller:
     def __init__(self):
-        self.model = InvoiceModel()
-        self.view = InvoiceView()
+        self.model = Invoice_Model()
+        self.view = Invoice_View()
 
     def run(self):
         while True:

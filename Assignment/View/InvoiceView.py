@@ -1,4 +1,4 @@
-class InvoiceView:
+class Invoice_View:
     def displayMenu(self):
         print("\n=== Invoice Management System ===")
         print("1. Total revenue")

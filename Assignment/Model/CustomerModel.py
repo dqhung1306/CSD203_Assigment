@@ -1,9 +1,9 @@
-from CustomerAVLTree import AVLTree
-from Database import Database
-from Customers import Customer
+from .CustomerAVLTree import AVLTree
+from .Database import Database
+from .Customers import Customer
 import re
 
-class CustomerModel:
+class Customer_Model:
     def __init__(self):
         self.tree = AVLTree()
         self.db = Database()

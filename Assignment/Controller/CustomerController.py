@@ -1,10 +1,11 @@
-from CustomerModel import CustomerModel
-from CustomerView import CustomerView
 
-class CustomerController:
+from Model.CustomerModel import Customer_Model
+from View.CustomerView import Customer_View
+
+class Customer_Controller:
     def __init__(self):
-        self.model = CustomerModel()
-        self.view = CustomerView()
+        self.model = Customer_Model()
+        self.view = Customer_View()
 
     def run(self):
         while True:

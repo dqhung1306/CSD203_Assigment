@@ -1,6 +1,6 @@
 import pyodbc
-from Customers import Customer
-from Invoices import Invoice
+from .Customers import Customer
+from .Invoices import Invoice
 
 class Database:
     def __init__(self):

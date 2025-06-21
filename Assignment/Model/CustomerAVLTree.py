@@ -1,4 +1,4 @@
-from Node import Node
+from .Node import Node
 class AVLTree:
     def __init__(self):
         self.root = None

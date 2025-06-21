@@ -1,8 +1,8 @@
-from InvoiceAVLTree import AVLTree
-from Database import Database
-from Invoices import Invoice
+from .InvoiceAVLTree import AVLTree
+from .Database import Database
+from .Invoices import Invoice
 
-class InvoiceModel:
+class Invoice_Model:
     def __init__(self):
         self.tree = AVLTree()
         self.db = Database()
