@@ -1,0 +1,79 @@
+I. Chức năng chính
+1. Tìm đường đi ngắn nhất (Shortest Path)
+Mô tả: Nhập điểm bắt đầu và điểm đích → hiển thị đường đi ngắn nhất.
+
+Giải thuật:
+
+✅ Dijkstra (tốt cho bản đồ không âm)
+
+✅ A* (hiệu quả hơn với tọa độ x, y)
+
+Phân tích thêm:
+
+Tính thời gian ước lượng hoặc chiều dài tuyến đường
+
+Có thể cho người dùng chọn "đi bộ", "xe máy", "xe hơi"
+
+2. Chỉ đường qua nhiều điểm (Multi-point Routing)
+Mô tả: Người dùng chọn nhiều điểm dừng → hệ thống tính đường ngắn nhất đi qua các điểm đó.
+
+Giải thuật:
+
+✅ Biến thể của Traveling Salesman Problem (TSP) – tìm thứ tự tối ưu.
+
+Có thể dùng thuật toán tham lam (greedy) nếu không cần tối ưu tuyệt đối.
+
+3. Tìm địa điểm gần nhất (Nearest Facility)
+Mô tả: Tìm cây xăng, trạm y tế, nhà nghỉ, ATM gần nhất.
+
+Giải thuật:
+
+✅ Dijkstra từ vị trí hiện tại → tìm đỉnh gần nhất thuộc tập “địa điểm quan tâm”
+
+✅ Nếu có tọa độ: dùng k-d tree để lọc nhanh theo khoảng cách Euclidean
+
+4. Tìm đường tránh đoạn bị cấm hoặc tắc
+Mô tả: Cho phép bỏ qua một số đoạn đường tạm thời (ví dụ: đường cấm ô tô).
+
+Giải thuật:
+
+✅ Gán trọng số ∞ hoặc bỏ cạnh đó khỏi đồ thị khi chạy thuật toán
+
+🗺️ II. Chức năng quản lý & hiển thị
+5. Quản lý bản đồ (Map Management)
+Cho phép thêm/xóa/sửa:
+
+Các địa điểm (đỉnh)
+
+Các tuyến đường (cạnh, trọng số)
+
+Lưu thông tin vào file JSON/CSV hoặc cơ sở dữ liệu SQLite nhỏ gọn
+
+6. Tìm kiếm địa điểm theo tên hoặc loại
+Tìm kiếm cây xăng, khách sạn, v.v… bằng từ khóa.
+
+Có thể gom nhóm địa điểm theo loại (category).
+
+7. Hiển thị bản đồ bằng ma trận hoặc đồ thị
+Cho phép người dùng thấy đường đi dưới dạng:
+
+Danh sách đỉnh → đỉnh (tuyến đường)
+
+Ma trận kề hoặc danh sách kề
+
+(Nâng cao) kết hợp GUI: PyQt, tkinter, hoặc pygame để vẽ bản đồ đơn giản
+
+🔧 III. Chức năng nâng cao (tuỳ chọn)
+8. Định tuyến theo thời gian hoặc phương tiện
+Mỗi cạnh mang thông tin:
+
+Độ dài, thời gian di chuyển bằng ô tô/xe máy
+
+Đường một chiều hoặc cấm xe tải
+
+9. Lưu lịch sử tìm đường
+Cho phép lưu lại các tìm kiếm để xem lại hoặc tối ưu đường đi
+
+10. Đánh giá đường đi
+Gợi ý tuyến đường: nhanh nhất, ngắn nhất, dễ đi nhất
+
