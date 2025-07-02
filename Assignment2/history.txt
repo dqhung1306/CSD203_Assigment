@@ -1,0 +1,1 @@
+[2025-07-02 11:10:59] Find Path: Path from Nhà hàng Golden Dragon to Chùa Láng, Vehicle: motorbike, Metric: distance, Total time: 9.44 minutes
