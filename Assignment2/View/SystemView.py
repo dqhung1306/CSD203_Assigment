@@ -1,6 +1,5 @@
-import pandas as pd
 from tabulate import tabulate
-
+from Model.GraphModel import Graph
 class View:
     def displayMenu(self):
         print("\n" + "="*50)
@@ -184,9 +183,27 @@ class View:
         print("Danh sách địa điểm:")
         for node_id, node in graph.nodes.items():
             print(f"  {node_id}: {node.Name}")
-        
-        start = input("\nNhập điểm bắt đầu (ID hoặc tên): ").strip()
-        end = input("Nhập điểm đến (ID hoặc tên): ").strip()
+        start, end = None, None 
+        while True:
+            start = input("\nNhập vị trí hiện tại (ID hoặc tên, để trống để hủy): ").strip()
+            if not start:
+                return None, "Đã hủy thao tác tìm địa điểm."
+            
+            # Kiểm tra tính hợp lệ của start
+            start_node = graph.getNodeById(start) or graph.getNodeByName(start)
+            if start_node:
+                break
+            print("Vị trí không tồn tại! Vui lòng nhập lại.")
+        while True:
+            end = input("\nNhập vị trí cần đến (ID hoặc tên, để trống để hủy): ").strip()
+            if not end:
+                return None, "Đã hủy thao tác tìm địa điểm."
+            
+            # Kiểm tra tính hợp lệ của start
+            end_node = graph.getNodeById(end) or graph.getNodeByName(end)
+            if end_node:
+                break
+            print("Vị trí không tồn tại! Vui lòng nhập lại.")
         
         print("\nChọn phương tiện:")
         print("1. Xe máy (mặc định)")
@@ -211,13 +228,20 @@ class View:
             'metric': metric
         }, None
 
-    def getNearbySearchInput(self):
+    def getNearbySearchInput(self, graph):
         """Lấy thông tin tìm địa điểm gần đây"""
         print("\nTÌM ĐỊA ĐIỂM GẦN ĐÂY")
         print("-" * 30)
-        
-        start = input("Nhập vị trí hiện tại (ID hoặc tên): ").strip()
-        
+        while True:
+            start = input("\nNhập vị trí hiện tại (ID hoặc tên, để trống để hủy): ").strip()
+            if not start:
+                return None, "Đã hủy thao tác tìm địa điểm."
+            
+            # Kiểm tra tính hợp lệ của start
+            start_node = graph.getNodeById(start) or graph.getNodeByName(start)
+            if start_node:
+                break
+            print("Vị trí không tồn tại! Vui lòng nhập lại.")
         print("\nChọn loại địa điểm cần tìm:")
         location_types = [
             "Bệnh viện", "Cây xăng", "Khách sạn", "ATM", 
