@@ -104,7 +104,7 @@ class Graph:
 
     def getNodeByName(self, name):
         for node in self.nodes.values():
-            if node.Name.lower() == name.lower():
+            if node.Name.lower() == name.Name.lower():
                 return node
         return None
     
