@@ -44,6 +44,8 @@ class Controller:
             elif choice == '6':
                 self.handle_statistics()
             elif choice == '7':
+                self.path_to_multi_destinations()
+            elif choice == '8':
                 self.view.showMessage("Cảm ơn bạn đã sử dụng hệ thống!")
                 break
             else:
@@ -167,3 +169,56 @@ class Controller:
         stats = self.graph.getStatistics()
         self.view.displayStatistics(stats)
         self.logger.log_statistics()  # Log statistics action
+
+    def path_to_multi_destinations(self):
+        path_data, error = self.view.getPathFindingInput(self.graph)
+        
+        if error:
+            self.view.showMessage(error, True)
+            return
+        
+        start = self.graph.getNodeById(path_data['start']) or self.graph.getNodeByName(path_data['start'])
+        end = self.graph.getNodeById(path_data['end']) or self.graph.getNodeByName(path_data['end'])
+        total_time = 0.0
+        while True:
+            if not start or not end:
+                self.view.showMessage(f"Không tìm thấy điểm {'bắt đầu' if not start else 'kết thúc'}!", True)
+                return
+            
+            result = self.graph.dijkstra(start, end, path_data['vehicle'], path_data['metric'])
+            if len(result) < 1:
+                print("\nPhương tiện vừa rồi không tìm thấy đường đi, vui lòng chọn phương tiện khác:")
+                print("1. Xe máy (mặc định)")
+                print("2. Ô tô")
+                print("3. Đi bộ")
+                
+                vehicle_choice_input = input("Chọn phương tiện (1-3): ").strip()
+                vehicles = {"1": "motorbike", "2": "car", "3": "walking"}
+                newVehicle = vehicles.get(vehicle_choice_input, "motorbike")
+                path_data['vehicle'] = newVehicle
+                result = self.graph.dijkstra(start, end, path_data['vehicle'], path_data['metric'])
+            if result:
+                nodes = list(result.keys())
+                for i in range(1, len(nodes)):
+                    if nodes[i] in self.graph.adjList[nodes[i-1]] and self.graph.adjList[nodes[i-1]][nodes[i]].canTraverse(path_data['vehicle']):
+                        total_time += self.graph.adjList[nodes[i-1]][nodes[i]].getTravelTime(path_data['vehicle'])
+            
+            self.view.displayPathResult(result, start.Name, end.Name, path_data['vehicle'], total_time)
+            self.logger.log_find_path(path_data, start.Name, end.Name, total_time)  # Log find path action
+            start = end
+            continue_choice = self.view.getContinueChoice()
+            if continue_choice.lower() != 'y':
+                self.view.showMessage(f"Tổng thời gian hành trình: {self.view.formatTime(total_time)}")
+                break
+            else:
+                while True:
+                    end = input("\nNhập vị trí cần đến (ID hoặc tên, để trống để hủy): ").strip()
+                    if not end:
+                        return None, "Đã hủy thao tác tìm địa điểm."
+                    
+                    # Kiểm tra tính hợp lệ của end
+                    end = self.graph.getNodeById(end) or self.graph.getNodeByName(end)
+                    if end:
+                        break
+                    print("Vị trí không tồn tại! Vui lòng nhập lại.")
+
