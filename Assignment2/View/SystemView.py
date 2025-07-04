@@ -1,5 +1,6 @@
 from tabulate import tabulate
 from Model.GraphModel import Graph
+
 class View:
     def displayMenu(self):
         print("\n" + "="*50)
@@ -12,9 +13,10 @@ class View:
         print("4. Tìm đường đi ngắn nhất từ vị trí hiện tại đến địa điểm chỉ định")
         print("5. Tìm các địa điểm công cộng gần đây")
         print("6. Thống kê hệ thống")
-        print("7. Thoát")
+        print("7. Tìm đường đi qua nhiều địa điểm chỉ định")
+        print("8. Thoát")
         print("="*50)
-        return input("Chọn chức năng (0-7): ").strip()
+        return input("Chọn chức năng (0-8): ").strip()
 
     def displayMap(self, graph):
         """Hiển thị bản đồ dưới dạng bảng"""
@@ -113,7 +115,7 @@ class View:
             'type': location_type
         }, None
 
-    def getNewRoadInput(self, graph):
+    def getNewRoadInput(self, graph, is_one_way = False):
         """Lấy thông tin tuyến đường mới"""
         print("\nTHÊM TUYẾN ĐƯỜNG MỚI")
         print("-" * 30)
@@ -199,7 +201,7 @@ class View:
             if not end:
                 return None, "Đã hủy thao tác tìm địa điểm."
             
-            # Kiểm tra tính hợp lệ của start
+            # Kiểm tra tính hợp lệ của end
             end_node = graph.getNodeById(end) or graph.getNodeByName(end)
             if end_node:
                 break
@@ -218,6 +220,8 @@ class View:
         print("1. Khoảng cách ngắn nhất")
         print("2. Thời gian nhanh nhất")
         
+       
+
         metric_choice_input = input("Chọn tiêu chí (1-2): ").strip()
         metric = "distance" if metric_choice_input == "1" else "time"
         
@@ -372,3 +376,15 @@ class View:
     def pressEnterToContinue(self):
         """Đợi người dùng nhấn Enter để tiếp tục"""
         input("\nNhấn Enter để tiếp tục...")
+
+    def getContinueChoice(self):
+        """Hỏi người dùng có muốn tiếp tục đến điểm khác không"""
+        print("\nBạn có muốn tiếp tục đến một địa điểm khác không?")
+        return input("Nhập 'y' để tiếp tục, bất kỳ phím nào khác để dừng: ").strip().lower()
+    def formatTime(self, minutes):
+        """Định dạng thời gian từ phút sang giờ và phút nếu lớn hơn 60 phút"""
+        if minutes > 60:
+            hours = int(minutes // 60)
+            remaining_minutes = int(minutes % 60)
+            return f"{hours} giờ {remaining_minutes} phút" if remaining_minutes > 0 else f"{hours} giờ"
+        return f"{minutes:.2f} phút"
