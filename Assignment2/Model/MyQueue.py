@@ -1,26 +1,26 @@
 class NodeQ:
-    def __init__(a,data):
-        a.data = data
-        a.next = None
+    def __init__(self,data):
+        self.data = data
+        self.next = None
 class My_Queue:
-    def __init__(a):
-        a.head = None
-        a.tail = None
-    def isEmpty(a):
-        return a.head ==None
-    def EnQueue(a, data):
+    def __init__(self):
+        self.head = None
+        self.tail = None
+    def isEmpty(self):
+        return self.head ==None
+    def EnQueue(self, data):
         node = NodeQ(data)
-        if a.isEmpty():
-            a.head = node
-            a.tail = node
+        if self.isEmpty():
+            self.head = node
+            self.tail = node
         else:
-            a.tail.next = node
-            a.tail = node
+            self.tail.next = node
+            self.tail = node
     #end def
-    def DeQueue(a):
-        if a.isEmpty():
+    def DeQueue(self):
+        if self.isEmpty():
             return None
-        data = a.head.data
-        a.head = a.head.next
+        data = self.head.data
+        self.head = self.head.next
         return data
 #end class    
