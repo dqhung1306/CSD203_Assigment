@@ -1,6 +1,7 @@
 from .Edges import Edge
 from .MyQueue import My_Queue
-
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 class Graph:
     def __init__(self):
         self.adjList = {} 
@@ -121,7 +122,8 @@ class Graph:
         while queue:
             current = queue.pop(0)
             if current.locationType.upper() == locationType.upper():
-                store.append(current)
+                minDist = list(self.dijkstra(start, current).values())[-1]
+                store.append((current, minDist))
                 if len(store) >= int(number):
                     return store
             for neighbor in self.adjList[current].keys():
@@ -129,7 +131,6 @@ class Graph:
                     visited.add(neighbor)
                     queue.append(neighbor)
         return store
-
     def getStatistics(self):
         total_locations = len(self.nodes)
         total_roads = len(self.edges)
@@ -160,3 +161,54 @@ class Graph:
             'location_types': location_types,
             'vehicle_support': vehicle_support
         }
+
+
+    def draw_graph(self):
+
+        plt.figure(figsize=(15, 8))
+        for start_node, neighbors in self.adjList.items():
+            for end_node, edge in neighbors.items():
+                x_values = [start_node.x, end_node.x]
+                y_values = [start_node.y, end_node.y]
+                plt.plot(x_values, y_values, 'k-', lw=1)
+
+        types = {}
+        for node in self.adjList.keys():
+            if node.locationType not in types:
+                types[node.locationType] = []
+            types[node.locationType].append(node)
+
+        colors = {
+            "Bệnh viện": "red",
+            "Cây xăng": "blue",
+            "Khách sạn": "green",
+            "Công viên": "purple",
+            "ATM": "orange",
+            "Nhà hàng": "cyan",
+            "Cửa hàng tiện lợi": "magenta",
+            "Trạm xe buýt": "yellow",
+            "Sân bay": "black",
+            "Khác": "gray"
+        }
+        unique_types = list(types.keys())
+        if len(unique_types) > len(colors):
+            cmap = cm.get_cmap('tab10')
+            for i, type_name in enumerate(unique_types):
+                if type_name not in colors:
+                    colors[type_name] = cmap(i % 10)
+
+        for type_name, nodes in types.items():
+            if nodes: 
+                x = [node.x for node in nodes]
+                y = [node.y for node in nodes]
+                plt.scatter(x, y, s=100, c=colors[type_name], label=type_name)
+
+        for node in self.adjList.keys():
+            plt.text(node.x, node.y, f"{node.Name}", fontsize=8)
+
+        plt.title("Bản đồ khu phố")
+        plt.xlabel("Tọa độ X")
+        plt.ylabel("Tọa độ Y")
+        plt.grid(True)
+        plt.legend()
+        plt.show()
