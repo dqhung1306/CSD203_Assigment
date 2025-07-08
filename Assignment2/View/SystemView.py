@@ -6,7 +6,7 @@ class View:
         print("\n" + "="*50)
         print("HỆ THỐNG ĐIỀU HƯỚNG THÔNG MINH")
         print("="*50)
-        print("0. Hiển thị bản đồ")
+        print("0. Hiển thị danh sách bản đồ")
         print("1. Thêm địa điểm mới")
         print("2. Thêm tuyến đường mới")
         print("3. Xóa địa điểm")
@@ -14,14 +14,15 @@ class View:
         print("5. Tìm các địa điểm công cộng gần đây")
         print("6. Thống kê hệ thống")
         print("7. Tìm đường đi qua nhiều địa điểm chỉ định")
-        print("8. Thoát")
+        print("8. Hiển thị bản đồ")
+        print("9. Thoát")
         print("="*50)
-        return input("Chọn chức năng (0-8): ").strip()
+        return input("Chọn chức năng (0-9): ").strip()
 
     def displayMap(self, graph):
         """Hiển thị bản đồ dưới dạng bảng"""
         print("\n" + "="*80)
-        print("BẢNG ĐỒ CÁC ĐỊA ĐIỂM")
+        print("DANH SÁCH CÁC ĐỊA ĐIỂM")
         print("="*80)
         
         if not graph.nodes:
@@ -71,7 +72,7 @@ class View:
         headers = ["ID Tuyến", "Điểm bắt đầu", "Điểm đến", "Khoảng cách", "Phương tiện", "Loại đường"]
         print(tabulate(data, headers=headers, tablefmt="grid"))
         
-        print(f"\nTổng số tuyến đường: {len(processed_edges)}")
+        print(f"\nTổng số tuyến đường: {len(processed_edges)/2}")
 
     def getNewLocationInput(self):
         """Lấy thông tin địa điểm mới từ người dùng"""
@@ -320,13 +321,13 @@ class View:
             return None
         
         for i, node in enumerate(results, 1):
-            print(f"{i}. {node.Name} - {node}")
+            print(f"{i}. {node[0].Name} - {node[1]}km")
         
         choice_input = input(f"\nChọn {location_type} để đi đến (số thứ tự): ").strip()
         if choice_input.isdigit():
             choice = int(choice_input) - 1
             if 0 <= choice < len(results):
-                return results[choice].Id
+                return results[0][choice].Id
         
         return None
 
