@@ -31,34 +31,35 @@ class Node:
         return float(f"{distance:.2f}")
 
     def navigate(self, prev, toNode):
-        if prev is None:
-            prev = self
+        if prev is None or prev == self:
+            return "Bắt đầu hành trình"
+        #vt1
         vx1 = self.x - prev.x
         vy1 = self.y - prev.y
-        
-
+        #vt2
         vx2 = toNode.x - self.x
         vy2 = toNode.y - self.y
 
-        ang = angle(self.x, self.y, toNode.x, toNode.y) % 360
-        cross = vx1 * vy2 - vy1 * vx2
+        ang = angle(self.x, self.y, toNode.x, toNode.y)
+        prev_ang = angle(prev.x, prev.y, self.x, self.y)
+        relative_angle = (ang - prev_ang) % 360
 
-        # Chỉ dẫn chi tiết
-        if 45 < ang <= 135:
-            return "Rẽ trái"
-        elif 135 < ang <= 225:
+        if relative_angle < 10 or relative_angle > 350:
             return "Đi thẳng"
-        elif 225 < ang <= 315:
-            return "Rẽ phải"
-        elif ang > 315 or ang <= 45:
-            if cross > 0:
-                return "Quay đầu sang trái"
-            elif cross < 0:
-                return "Quay đầu sang phải"
-            else:
-                return "Quay đầu thẳng"
+        elif 10 <= relative_angle < 45:
+            return f"Rẽ phải nhẹ khoảng {int(relative_angle)} độ"
+        elif 45 <= relative_angle <= 135:
+            return f"Rẽ phải khoảng {int(relative_angle)} độ"
+        elif 135 < relative_angle < 170:
+            return f"Rẽ trái nhẹ khoảng {int(360 - relative_angle)} độ"
+        elif 170 <= relative_angle <= 190:
+            return "Quay đầu"
+        elif 190 < relative_angle <= 225:
+            return f"Rẽ trái khoảng {int(360 - relative_angle)} độ"
+        elif 225 < relative_angle <= 350:
+            return f"Rẽ trái nhẹ khoảng {int(360 - relative_angle)} độ"
         else:
-            return "Đi tiếp"
+            return f"Rẽ phải khoảng {int(relative_angle)} độ"
 
 
     def calculateAngle(self, toNode):
