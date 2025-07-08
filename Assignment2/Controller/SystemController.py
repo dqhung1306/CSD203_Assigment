@@ -46,6 +46,8 @@ class Controller:
             elif choice == '7':
                 self.path_to_multi_destinations()
             elif choice == '8':
+                self.draw_map()
+            elif choice == '9':
                 self.view.showMessage("Cảm ơn bạn đã sử dụng hệ thống!")
                 break
             else:
@@ -53,10 +55,13 @@ class Controller:
             
             if choice != '7':
                 self.view.pressEnterToContinue()
-
+    def draw_map(self):
+        self.graph.draw_graph()
+        
     def handle_display_map(self):
         self.view.displayMap(self.graph)
         print("\n" + "="*40)
+        #self.graph.draw_graph()
         self.view.displayRoads(self.graph)
         self.logger.log_display_map()  # Log display map action
 
